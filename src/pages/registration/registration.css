@@ -1,0 +1,10 @@
+.registration {
+  padding-top: 70px;
+  display: flex;
+  justify-content: center;
+}
+
+.registration-footer {
+  padding-top: 50px;
+  text-align: center;
+}

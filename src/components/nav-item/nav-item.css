@@ -2,11 +2,11 @@
   color: #3068cd;
 }
 
-.active-link {
+.active {
   color: #77309a;
 }
 
 .link:hover,
-.active-link :hover {
+.active:hover {
   opacity: 0.7;
 }

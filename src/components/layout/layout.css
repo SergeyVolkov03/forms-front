@@ -5,10 +5,28 @@
   background-color: aliceblue;
   align-items: center;
   justify-content: space-between;
+  padding: 0 30px;
+}
+
+@media (max-width: 700px) {
+  .header {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  .header {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 430px) {
+  .header {
+    padding: 0 5px;
+  }
 }
 
 .logo {
-  padding-left: 20px;
   display: inline-block;
   font-size: 2rem;
   font-family: "Pacifico", cursive;

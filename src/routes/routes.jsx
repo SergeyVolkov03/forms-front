@@ -3,6 +3,8 @@ import { useAuth } from "../provider/authProvider";
 import { ProtectedRoute } from "./protected-route";
 import Layout from "../components/layout/layout";
 import ProtectAuthUsersPage from "../pages/protect-auth-users/protect-auth-users-page";
+import LoginPage from "../pages/login/login";
+import RegistrationPage from "../pages/registration/registration";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -58,11 +60,11 @@ const Routes = () => {
       children: [
         {
           path: "/login",
-          element: <div>Login Page</div>,
+          element: <LoginPage />,
         },
         {
           path: "/registration",
-          element: <div>Registration Page</div>,
+          element: <RegistrationPage />,
         },
       ],
     },

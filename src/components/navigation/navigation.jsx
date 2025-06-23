@@ -4,7 +4,6 @@ import "./navigation.css";
 
 export default function Navigation() {
   const { token, setAuthToken } = useAuth();
-  console.log("aaaa");
 
   function onClick() {
     setAuthToken();
@@ -16,8 +15,8 @@ export default function Navigation() {
       <NavItem to={"/search"} name={"Search"} />
       {token ? (
         <>
-          <NavItem to={"/user-page"} name={"User page"} />
-          <NavItem to={"/administration"} name={"Administration"} />
+          <NavItem to={"/user-page"} name={"Profile"} />
+          <NavItem to={"/administration"} name={"Admin"} />
           <button className="log-out" onClick={onClick}>
             Log Out
           </button>
