@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
 import { ProtectedRoute } from "./protected-route";
-import Layout from "../layout/layout";
+import Layout from "../components/layout/layout";
 import ProtectAuthUsersPage from "../pages/protect-auth-users/protect-auth-users-page";
 
 const Routes = () => {
@@ -17,8 +17,8 @@ const Routes = () => {
           element: <div>home page</div>,
         },
         {
-          path: "/about-us",
-          element: <div>About Us</div>,
+          path: "/search",
+          element: <div>Search</div>,
         },
       ],
     },
@@ -38,7 +38,7 @@ const Routes = () => {
               element: <div>Admin page</div>,
             },
             {
-              path: "userPage",
+              path: "user-page",
               element: <div>User Page</div>,
             },
             {

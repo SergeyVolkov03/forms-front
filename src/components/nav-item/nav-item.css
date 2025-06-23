@@ -1,0 +1,12 @@
+.link {
+  color: #3068cd;
+}
+
+.active-link {
+  color: #77309a;
+}
+
+.link:hover,
+.active-link :hover {
+  opacity: 0.7;
+}

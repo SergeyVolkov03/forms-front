@@ -1,9 +1,14 @@
 import { Outlet } from "react-router-dom";
+import Navigation from "../navigation/navigation";
+import "./layout.css";
 
 export default function Layout() {
   return (
     <div>
-      <header>layout</header>
+      <header className="header">
+        <div className="logo">Forms</div>
+        <Navigation />
+      </header>
       <main>
         <Outlet />
       </main>
