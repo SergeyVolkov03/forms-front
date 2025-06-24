@@ -1,0 +1,15 @@
+.table-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.toolbar {
+  display: flex;
+}
+.main {
+  padding: 20px;
+}
+.main-description {
+  text-align: center;
+  margin: 20px 0px;
+}

@@ -18,7 +18,6 @@ export default function LoginForm() {
       })
       .catch((e) => {
         setErr(e.response.data.message);
-        console.log(e.response.data.message);
       });
   }
 

@@ -5,6 +5,7 @@ import Layout from "../components/layout/layout";
 import ProtectAuthUsersPage from "../pages/protect-auth-users/protect-auth-users-page";
 import LoginPage from "../pages/login/login";
 import RegistrationPage from "../pages/registration/registration";
+import AdminPage from "../pages/admin/admin";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -37,7 +38,7 @@ const Routes = () => {
           children: [
             {
               path: "administration",
-              element: <div>Admin page</div>,
+              element: <AdminPage />,
             },
             {
               path: "user-page",
