@@ -62,3 +62,18 @@ export function deleteUsersFetch(token, ids) {
     },
   });
 }
+
+export function createTemplate(data) {
+  return axios({
+    method: "POST",
+    url: "http://localhost:5000/templates",
+    data: data,
+  });
+}
+
+export function getTemplatesByUserId(id) {
+  return axios({
+    method: "GET",
+    url: `http://localhost:5000/templates/user/${id}`,
+  });
+}

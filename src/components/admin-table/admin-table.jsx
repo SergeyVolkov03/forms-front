@@ -4,7 +4,13 @@ import "./admin-table.css";
 import { useAuth } from "../../provider/authProvider";
 import { jwtDecode } from "jwt-decode";
 import moment from "moment";
-import { deleteUsersFetch, getUsers, updateUsers } from "../../api/api";
+import {
+  deleteUsersFetch,
+  getUser,
+  getUsers,
+  updateUsers,
+} from "../../api/api";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   { title: "Name", dataIndex: "name" },
@@ -21,6 +27,7 @@ export default function AdminTable() {
   const [change, setChange] = useState(0);
   const [api, contextHolder] = notification.useNotification();
   const userId = jwtDecode(token).userId;
+  const navigate = useNavigate();
 
   function openNotificationSucces(text) {
     api.success({
@@ -29,11 +36,17 @@ export default function AdminTable() {
   }
 
   useEffect(() => {
-    getUsers(token)
+    getUser(userId, token)
       .then((res) => {
-        setData(res.data);
+        if (res.data.is_admin) {
+          getUsers(token).then((res) => {
+            setData(res.data);
+          });
+        } else {
+          navigate("/");
+        }
       })
-      .catch((e) => {
+      .catch(() => {
         setAuthToken();
       });
   }, [change]);

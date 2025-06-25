@@ -7,33 +7,37 @@ import { getUser } from "../../api/api";
 
 export default function Navigation() {
   const { token, setAuthToken } = useAuth();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [user, setUser] = useState();
 
   useEffect(() => {
     if (token) {
       const userId = jwtDecode(token).userId;
       getUser(userId, token)
         .then((res) => {
-          setIsAdmin(res.data.is_admin);
+          setUser(res.data);
         })
         .catch(() => {
           setAuthToken();
+          setUser();
         });
+    } else {
+      setUser();
     }
   }, [token]);
 
   function onClick() {
     setAuthToken();
+    setUser();
   }
 
   return (
     <div className="navigation">
       <NavItem to={"/"} name={"Home"} />
       <NavItem to={"/search"} name={"Search"} />
-      {token ? (
+      {user ? (
         <>
-          <NavItem to={"/user-page"} name={"Profile"} />
-          {isAdmin && <NavItem to={"/administration"} name={"Admin"} />}
+          <NavItem to={`/profile/${user.id}`} name={"Profile"} />
+          {user.is_admin && <NavItem to={"/administration"} name={"Admin"} />}
           <button className="log-out" onClick={onClick}>
             Log Out
           </button>

@@ -6,6 +6,8 @@ import ProtectAuthUsersPage from "../pages/protect-auth-users/protect-auth-users
 import LoginPage from "../pages/login/login";
 import RegistrationPage from "../pages/registration/registration";
 import AdminPage from "../pages/admin/admin";
+import TemplatePage from "../pages/template/template";
+import ProfilePage from "../pages/profile/profile";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -22,6 +24,10 @@ const Routes = () => {
         {
           path: "/search",
           element: <div>Search</div>,
+        },
+        {
+          path: "/template/:id",
+          element: <TemplatePage />,
         },
       ],
     },
@@ -41,8 +47,8 @@ const Routes = () => {
               element: <AdminPage />,
             },
             {
-              path: "user-page",
-              element: <div>User Page</div>,
+              path: "/profile/:id",
+              element: <ProfilePage />,
             },
             {
               path: "*",
