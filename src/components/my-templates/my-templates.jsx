@@ -1,21 +1,19 @@
-import { useEffect, useState } from "react";
-import { getTemplatesByUserId } from "../../api/api";
-import { Link } from "react-router-dom";
+import { Tabs } from "antd";
+import TemplateTable from "../template-table/template-table";
 
 export default function MyTemplates({ user_id }) {
-  const [data, setData] = useState([]);
+  const items = [
+    {
+      key: "1",
+      label: "My templates",
+      children: <TemplateTable user_id={user_id} />,
+    },
+    {
+      key: "2",
+      label: "My forms",
+      children: "Content of Tab Pane 2",
+    },
+  ];
 
-  useEffect(() => {
-    getTemplatesByUserId(user_id).then((res) => {
-      setData(res.data);
-    });
-  }, []);
-
-  return data.map((element) => {
-    return (
-      <Link key={element.id} to={`/template/${element.id}`}>
-        {element.title}
-      </Link>
-    );
-  });
+  return <Tabs defaultActiveKey="1" items={items} centered />;
 }
