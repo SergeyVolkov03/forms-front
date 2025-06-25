@@ -1,4 +1,5 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export function fetchLoginData(data) {
   return axios({
@@ -16,10 +17,11 @@ export function fetchRegistrationData(data) {
   });
 }
 
-export function getUser(id, token) {
+export function getUser(token) {
+  const userId = jwtDecode(token).userId;
   return axios({
     method: "get",
-    url: `http://localhost:5000/users/${id}`,
+    url: `http://localhost:5000/users/${userId}`,
     headers: {
       Authorization: `Bearer ${token}`,
     },

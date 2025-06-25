@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Button, Flex, Table, Space, notification } from "antd";
 import "./admin-table.css";
 import { useAuth } from "../../provider/authProvider";
-import { jwtDecode } from "jwt-decode";
 import moment from "moment";
 import {
   deleteUsersFetch,
@@ -23,10 +22,10 @@ const columns = [
 export default function AdminTable() {
   const { token, setAuthToken } = useAuth();
   const [data, setData] = useState([]);
+  const [user, setUser] = useState();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [change, setChange] = useState(0);
   const [api, contextHolder] = notification.useNotification();
-  const userId = jwtDecode(token).userId;
   const navigate = useNavigate();
 
   function openNotificationSucces(text) {
@@ -36,9 +35,10 @@ export default function AdminTable() {
   }
 
   useEffect(() => {
-    getUser(userId, token)
+    getUser(token)
       .then((res) => {
         if (res.data.is_admin) {
+          setUser(res.data);
           getUsers(token).then((res) => {
             setData(res.data);
           });
@@ -100,7 +100,7 @@ export default function AdminTable() {
 
   const dataSource = dataSourceSorted.map((element) => ({
     key: element.id,
-    name: userId === element.id ? element.name + " (it's you)" : element.name,
+    name: user.id === element.id ? element.name + " (it's you)" : element.name,
     email: element.email,
     blockStatus: element.is_blocked ? "blocked" : "active",
     status: element.is_admin ? "admin" : "user",

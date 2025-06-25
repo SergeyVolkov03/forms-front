@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../provider/authProvider";
 import NavItem from "../nav-item/nav-item";
-import { jwtDecode } from "jwt-decode";
 import "./navigation.css";
 import { getUser } from "../../api/api";
 
@@ -11,8 +10,7 @@ export default function Navigation() {
 
   useEffect(() => {
     if (token) {
-      const userId = jwtDecode(token).userId;
-      getUser(userId, token)
+      getUser(token)
         .then((res) => {
           setUser(res.data);
         })
