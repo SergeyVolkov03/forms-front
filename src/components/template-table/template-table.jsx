@@ -1,6 +1,10 @@
-import { Button, Flex, Table } from "antd";
+import { Button, Flex, notification, Table } from "antd";
 import { useEffect, useState } from "react";
-import { createTemplate, getTemplatesByUserId } from "../../api/api";
+import {
+  createTemplate,
+  deleteTemplatesFetch,
+  getTemplatesByUserId,
+} from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -26,13 +30,20 @@ export default function TemplateTable({ user_id }) {
   const navigate = useNavigate();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [data, setData] = useState([]);
+  const [api, contextHolder] = notification.useNotification();
+  const [change, setChange] = useState(0);
 
   useEffect(() => {
     getTemplatesByUserId(user_id).then((res) => {
-      console.log(moment(res.data[0].created_at));
       setData(res.data);
     });
-  }, []);
+  }, [change]);
+
+  function openNotificationSucces(text) {
+    api.success({
+      description: text,
+    });
+  }
 
   const dataSource = data.map((element) => ({
     key: element.id,
@@ -42,7 +53,6 @@ export default function TemplateTable({ user_id }) {
   }));
 
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
@@ -53,26 +63,55 @@ export default function TemplateTable({ user_id }) {
 
   const hasSelected = selectedRowKeys.length > 0;
 
-  function createTemplateOnClick() {
+  async function createTemplateOnClick() {
     createTemplate({
-      author_id: user_id,
-      title: "hello",
+      author_id: +user_id,
+      title: "New Template",
       topic_id: 1,
-    }).then((res) => {
-      navigate(`/template/${res.data.id}`);
-    });
+    })
+      .then((res) => {
+        navigate(`/template/${res.data.id}`);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  async function deleteTemplates() {
+    deleteTemplatesFetch(selectedRowKeys)
+      .then(() => {
+        openNotificationSucces("Template(s) were deleted");
+        setSelectedRowKeys([]);
+        setChange((prev) => prev + 1);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   return (
     <div className="template-table-container">
       <div className="template-table">
+        {contextHolder}
         <Flex gap="middle" vertical>
-          <Flex align="center" gap="middle" justify="center">
+          <Flex
+            align="center"
+            gap="middle"
+            justify="center"
+            style={{ paddingTop: 20 }}
+          >
             <Button type="primary" onClick={createTemplateOnClick}>
               Create template
             </Button>
-            <Button type="primary" disabled={!hasSelected}>
-              Reload
+          </Flex>
+          <Flex align="center" gap="middle" justify="center">
+            <Button
+              type="primary"
+              disabled={!hasSelected}
+              danger
+              onClick={deleteTemplates}
+            >
+              Delete
             </Button>
             {hasSelected ? `Selected ${selectedRowKeys.length} items` : null}
           </Flex>

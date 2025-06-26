@@ -7,7 +7,10 @@
   display: flex;
 }
 .main {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
 }
 .main-description {
   text-align: center;

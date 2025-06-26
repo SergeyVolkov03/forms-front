@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../../api/api";
 import MyTemplates from "../../components/my-templates/my-templates";

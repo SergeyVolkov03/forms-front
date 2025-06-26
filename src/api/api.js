@@ -79,3 +79,13 @@ export function getTemplatesByUserId(id) {
     url: `http://localhost:5000/templates/user/${id}`,
   });
 }
+
+export function deleteTemplatesFetch(ids) {
+  return axios({
+    method: "DELETE",
+    url: "http://localhost:5000/templates",
+    data: {
+      ids: ids,
+    },
+  });
+}

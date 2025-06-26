@@ -126,7 +126,12 @@ export default function AdminTable() {
       </p>
       <Flex gap="middle" vertical>
         {contextHolder}
-        <Flex align="center" gap="middle">
+        <Flex
+          align="center"
+          gap="middle"
+          justify="center"
+          style={{ paddingTop: 20, paddingBottom: 20 }}
+        >
           <Space>
             <div className="toolbar">
               <div className="table-buttons">
