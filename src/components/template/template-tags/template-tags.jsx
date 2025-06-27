@@ -1,0 +1,118 @@
+import { useState, useEffect } from "react";
+import { AutoComplete, Tag, Button } from "antd";
+import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  createTag,
+  getAllTags,
+  getAllTagsByQuery,
+  updateTemplate,
+} from "../../../api/api";
+
+export default function TemplateTags({ data }) {
+  const [tags, setTags] = useState(data.tags);
+  const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getAllTags().then((res) => {
+      setOptions(res.data);
+    });
+  }, [tags]);
+
+  useEffect(() => {
+    getAllTagsByQuery(inputValue)
+      .then((res) => {
+        setOptions(res.data.map((tag) => ({ value: tag.name })));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [inputValue]);
+
+  const addTag = async () => {
+    if (!inputValue.trim()) return;
+
+    const tagName = inputValue.trim();
+    setLoading(true);
+
+    try {
+      if (tags.some((t) => t.name.toLowerCase() === tagName.toLowerCase())) {
+        return;
+      }
+
+      const tag = (await createTag({ name: tagName })).data;
+
+      updateTemplate(data.id, {
+        tags: [...tags.map((t) => t.id), tag.id],
+      }).catch((e) => {
+        console.log(e);
+      });
+
+      setTags([...tags, tag]);
+      setInputValue("");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  async function removeTag(tagId) {
+    const filteredTags = tags.filter((tag) => tag.id !== tagId);
+    updateTemplate(data.id, { tags: [...filteredTags.map((t) => t.id)] })
+      .then(() => {
+        setTags(filteredTags);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  function onChnageInput(value) {
+    setInputValue(value);
+  }
+
+  return (
+    <div className="tag-editor" style={{ marginBottom: 5 }}>
+      <div className="tags-container" style={{ marginBottom: 16 }}>
+        {tags.map((tag) => (
+          <Tag
+            key={tag.id}
+            closable
+            onClose={() => removeTag(tag.id)}
+            closeIcon={<CloseOutlined />}
+          >
+            {tag.name}
+          </Tag>
+        ))}
+      </div>
+
+      {options && (
+        <div
+          className="tag-input-container"
+          style={{ display: "flex", gap: 8 }}
+        >
+          <AutoComplete
+            style={{ width: "100%" }}
+            options={inputValue.trim() === "" ? [] : options}
+            placeholder="Enter tag"
+            value={inputValue}
+            onChange={onChnageInput}
+            onSelect={(value) => {
+              setInputValue(value);
+            }}
+          />
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={addTag}
+            loading={loading}
+          >
+            Add tag
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}

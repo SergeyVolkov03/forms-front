@@ -73,10 +73,25 @@ export function createTemplate(data) {
   });
 }
 
+export function updateTemplate(id, data) {
+  return axios({
+    method: "PATCH",
+    url: `http://localhost:5000/templates/${id}`,
+    data,
+  });
+}
+
 export function getTemplatesByUserId(id) {
   return axios({
     method: "GET",
     url: `http://localhost:5000/templates/user/${id}`,
+  });
+}
+
+export function getTemplateByid(id) {
+  return axios({
+    method: "GET",
+    url: `http://localhost:5000/templates/${id}`,
   });
 }
 
@@ -87,5 +102,37 @@ export function deleteTemplatesFetch(ids) {
     data: {
       ids: ids,
     },
+  });
+}
+
+export function getTopicsFeth() {
+  return axios({
+    method: "GET",
+    url: "http://localhost:5000/topics",
+  });
+}
+
+export function getAllTags() {
+  return axios({
+    method: "GET",
+    url: "http://localhost:5000/tags",
+  });
+}
+
+export function getAllTagsByQuery(value) {
+  return axios({
+    method: "GET",
+    url: "http://localhost:5000/tags/search",
+    params: {
+      query: value,
+    },
+  });
+}
+
+export function createTag(data) {
+  return axios({
+    method: "POST",
+    url: "http://localhost:5000/tags",
+    data,
   });
 }

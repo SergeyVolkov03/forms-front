@@ -1,0 +1,10 @@
+.template-container {
+  max-width: 800px;
+  min-width: 600px;
+}
+
+@media (max-width: 600px) {
+  .template-container {
+    min-width: 400px;
+  }
+}
