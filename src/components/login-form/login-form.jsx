@@ -17,7 +17,11 @@ export default function LoginForm() {
         navigate("/", { replace: true });
       })
       .catch((e) => {
-        setErr(e.response.data.message);
+        if (e.message === "Network Error") {
+          setErr(e.message);
+        } else {
+          setErr(e.response.data.message);
+        }
       });
   }
 

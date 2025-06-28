@@ -21,13 +21,21 @@ export default function TemplateTags({ data }) {
   }, [tags]);
 
   useEffect(() => {
-    getAllTagsByQuery(inputValue)
-      .then((res) => {
-        setOptions(res.data.map((tag) => ({ value: tag.name })));
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    async function fetchTagsQuery() {
+      getAllTagsByQuery(inputValue)
+        .then((res) => {
+          console.log(res.data);
+          setOptions(res.data.map((tag) => ({ value: tag.name })));
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    const timer = setTimeout(() => {
+      fetchTagsQuery();
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [inputValue]);
 
   const addTag = async () => {
