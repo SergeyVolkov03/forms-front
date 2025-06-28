@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Select, Spin, Tag } from "antd";
-import { getUserByQuery } from "../../../api/api";
+import { getUserByQuery, updateTemplate } from "../../../api/api";
 
 const { Option } = Select;
 
-export default function TemplateUsers({ value = [], onChange }) {
+export default function TemplateUsers({ data }) {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [users, setUsers] = useState(data.fillers);
 
   useEffect(() => {
     setLoading(true);
@@ -23,13 +24,14 @@ export default function TemplateUsers({ value = [], onChange }) {
         });
     }
 
-    const timer = setTimeout(() => {
-      if (searchText) {
+    let timer;
+    if (searchText) {
+      timer = setTimeout(() => {
         fetchUsers();
-      } else {
-        setOptions([]);
-      }
-    }, 300);
+      }, 300);
+    } else {
+      setOptions([]);
+    }
 
     return () => clearTimeout(timer);
   }, [searchText]);
@@ -38,28 +40,43 @@ export default function TemplateUsers({ value = [], onChange }) {
     setSearchText(value);
   }
 
-  // Обработчик выбора пользователя
-  function handleSelect(userId, option) {
-    const selectedUser = options.find((user) => user.id === userId);
-    if (selectedUser && !value.some((user) => user.id === userId)) {
-      const newValue = [...value, selectedUser];
-      onChange(newValue);
+  function handleSelect(select) {
+    console.log(+select.key, "select");
+    const selectedUser = options.find((user) => user.id === +select.key);
+    if (selectedUser && !users.some((user) => user.id === +select.key)) {
+      updateTemplate(data.id, {
+        fillers: [...users.map((e) => e.id), selectedUser.id],
+      })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      setUsers([...users, selectedUser]);
     }
     setSearchText("");
   }
 
-  // Обработчик удаления пользователя
-  const handleRemove = (userId) => {
-    const newValue = value.filter((user) => user.id !== userId);
-    onChange(newValue);
-  };
+  function handleRemove(e) {
+    const newUsers = users.filter((user) => user.id !== e.key);
+    updateTemplate(data.id, {
+      fillers: [...newUsers.map((e) => e.id)],
+    })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    setUsers(newUsers);
+  }
 
-  // Кастомный рендер тега
   const tagRender = (props) => {
     const { label, closable, onClose } = props;
     return (
       <Tag
-        color="blue"
+        color="geekblue"
         closable={closable}
         onClose={onClose}
         style={{ margin: "4px" }}
@@ -69,16 +86,21 @@ export default function TemplateUsers({ value = [], onChange }) {
     );
   };
 
+  const selectValue =
+    users.length > 0
+      ? users.map((user) => ({
+          key: user.id,
+          label: `${user.name} (${user.email})`,
+          value: user.id,
+        }))
+      : undefined;
+
   return (
     <Select
       mode="multiple"
       showSearch
-      value={value.map((user) => ({
-        key: user.id,
-        label: `${user.name} (${user.email})`,
-        value: user.id,
-      }))}
-      placeholder="Начните вводить имя пользователя..."
+      value={selectValue}
+      placeholder="Start typing your username..."
       filterOption={false}
       onSearch={handleSearch}
       onSelect={handleSelect}
@@ -92,8 +114,8 @@ export default function TemplateUsers({ value = [], onChange }) {
       labelInValue={true}
     >
       {options.map((user) => (
-        <Option key={user.id} value={user.id}>
-          {user.name} ({user.email})
+        <Option key={user.id} value={`${user.name} (${user.email})`}>
+          {`${user.name} (${user.email})`}
         </Option>
       ))}
     </Select>

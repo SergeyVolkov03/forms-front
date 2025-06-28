@@ -70,7 +70,7 @@ export default function TemplateHeader({ data }) {
         )}
       </Flex>
       <TemplateTags data={data} />
-      <TemplateUsers />
+      <TemplateUsers data={data} />
     </>
   );
 }

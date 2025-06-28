@@ -31,9 +31,14 @@ export default function TemplateTags({ data }) {
           console.log(e);
         });
     }
-    const timer = setTimeout(() => {
-      fetchTagsQuery();
-    }, 300);
+    let timer;
+    if (inputValue) {
+      timer = setTimeout(() => {
+        fetchTagsQuery();
+      }, 300);
+    } else {
+      setOptions([]);
+    }
 
     return () => clearTimeout(timer);
   }, [inputValue]);
@@ -83,9 +88,10 @@ export default function TemplateTags({ data }) {
 
   return (
     <div className="tag-editor" style={{ marginBottom: 5 }}>
-      <div className="tags-container" style={{ marginBottom: 16 }}>
+      <div className="tags-container" style={{ marginBottom: 5 }}>
         {tags.map((tag) => (
           <Tag
+            color="geekblue"
             key={tag.id}
             closable
             onClose={() => removeTag(tag.id)}
@@ -111,12 +117,7 @@ export default function TemplateTags({ data }) {
               setInputValue(value);
             }}
           />
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={addTag}
-            loading={loading}
-          >
+          <Button icon={<PlusOutlined />} onClick={addTag} loading={loading}>
             Add tag
           </Button>
         </div>
