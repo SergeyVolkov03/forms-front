@@ -25,7 +25,6 @@ export default function TemplatePage() {
     <div>
       <Flex justify="center">
         <Flex vertical className="template-container">
-          template {id}
           <Divider />
           {templateData ? (
             <TemplateHeader data={templateData} />

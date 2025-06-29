@@ -28,10 +28,20 @@ export function getUser(token) {
   });
 }
 
-export function getUserByQuery(value) {
+export function getUserByUserName(value) {
   return axios({
     method: "GET",
-    url: "http://localhost:5000/users/search",
+    url: "http://localhost:5000/users/search/username",
+    params: {
+      query: value,
+    },
+  });
+}
+
+export function getUserByEmail(value) {
+  return axios({
+    method: "GET",
+    url: "http://localhost:5000/users/search/email",
     params: {
       query: value,
     },
