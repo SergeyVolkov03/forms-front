@@ -5,12 +5,14 @@ import TemplateDescription from "./template-description/template-description";
 import TemplateTopic from "./template-topic/template-topic";
 import { updateTemplate } from "../../api/api";
 import TemplateUsers from "./template-users.jsx/template-users";
-import { Button, Flex, Upload } from "antd";
+import { Button, Divider, Flex, Upload } from "antd";
 import { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
+import TemplateQuestions from "./template-questions/template-question";
 
 export default function TemplateHeader({ data }) {
   const [imageUrl, setImageUrl] = useState(data.image);
+  const [position, setPosition] = useState(1);
 
   async function handleUpload(e) {
     const { file } = e;
@@ -26,7 +28,6 @@ export default function TemplateHeader({ data }) {
       );
       const res = await response.json();
       const uploadedUrl = res.data.url;
-      console.log(uploadedUrl);
       setImageUrl(uploadedUrl);
       updateTemplate(data.id, { image: uploadedUrl }).catch((e) => {
         console.log(e);
@@ -47,30 +48,42 @@ export default function TemplateHeader({ data }) {
       });
   }
 
+  function handleHeaderAction() {
+    setPosition(1);
+  }
+
   return (
     <>
-      {imageUrl && (
-        <img src={imageUrl} alt="template-image" className="template-img" />
-      )}
-      <TemplateTitle data={data} />
-      <TemplateDescription data={data} />
-      <TemplateTopic data={data} />
-      <Flex style={{ marginBottom: 5 }}>
-        {imageUrl ? (
-          <Button onClick={removeImage}>Delete image</Button>
-        ) : (
-          <Upload
-            customRequest={handleUpload}
-            listType="picture"
-            maxCount={1}
-            accept="image/*"
-          >
-            <Button icon={<UploadOutlined />}>Upload image</Button>
-          </Upload>
+      <div onClick={handleHeaderAction}>
+        {imageUrl && (
+          <img src={imageUrl} alt="template-image" className="template-img" />
         )}
-      </Flex>
-      <TemplateTags data={data} />
-      <TemplateUsers data={data} />
+        <TemplateTitle data={data} />
+        <TemplateDescription data={data} />
+        <TemplateTopic data={data} />
+        <Flex style={{ marginBottom: 5 }}>
+          {imageUrl ? (
+            <Button onClick={removeImage}>Delete image</Button>
+          ) : (
+            <Upload
+              customRequest={handleUpload}
+              listType="picture"
+              maxCount={1}
+              accept="image/*"
+            >
+              <Button icon={<UploadOutlined />}>Upload image</Button>
+            </Upload>
+          )}
+        </Flex>
+        <TemplateTags data={data} />
+        <TemplateUsers data={data} />
+      </div>
+      <Divider />
+      <TemplateQuestions
+        data={data}
+        position={position}
+        setPosition={setPosition}
+      />
     </>
   );
 }

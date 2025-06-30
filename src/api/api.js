@@ -156,3 +156,26 @@ export function createTag(data) {
     data,
   });
 }
+
+export function createQuestion(data) {
+  return axios({
+    method: "POST",
+    url: "http://localhost:5000/questions",
+    data,
+  });
+}
+
+export function deleteQuestion(id) {
+  return axios({
+    method: "DELETE",
+    url: `http://localhost:5000/questions/${id}`,
+  });
+}
+
+export function updateQuestionsByOrder(data) {
+  return axios({
+    method: "PATCH",
+    url: "http://localhost:5000/questions/update",
+    data,
+  });
+}

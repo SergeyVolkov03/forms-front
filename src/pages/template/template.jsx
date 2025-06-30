@@ -27,7 +27,10 @@ export default function TemplatePage() {
         <Flex vertical className="template-container">
           <Divider />
           {templateData ? (
-            <TemplateHeader data={templateData} />
+            <>
+              <TemplateHeader data={templateData} />
+              <Divider />
+            </>
           ) : (
             <Spin indicator={<LoadingOutlined spin />} size="large" />
           )}
