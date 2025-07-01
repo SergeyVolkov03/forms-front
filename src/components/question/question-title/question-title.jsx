@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import updateQuestion from "../../../api/api";
 import TextArea from "antd/es/input/TextArea";
-import { updateTemplate } from "../../../api/api";
 
-export default function TemplateTitle({ data }) {
+export default function QuestionTitle({ data }) {
   const [title, setTitle] = useState(data.title);
 
   useEffect(() => {
     async function fetchTitle() {
-      updateTemplate(data.id, { title: title }).catch((e) => {
+      updateQuestion(data.id, { title: title }).catch((e) => {
         console.log(e);
       });
     }
@@ -29,8 +29,7 @@ export default function TemplateTitle({ data }) {
         autoSize
         value={title}
         maxLength={100}
-        size="large"
-        style={{ marginTop: 5 }}
+        size="middle"
         onChange={onChangeTitle}
       />
     </>

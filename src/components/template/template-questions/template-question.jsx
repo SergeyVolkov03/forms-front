@@ -7,9 +7,12 @@ import {
   updateQuestionsByOrder,
 } from "../../../api/api";
 import { MenuOutlined } from "@ant-design/icons";
+import Question from "../../question/question";
 
 export default function TemplateQuestions({ data, position, setPosition }) {
-  const [questions, setQuestions] = useState(data.questions);
+  const [questions, setQuestions] = useState(
+    data.questions.sort((a, b) => a.order - b.order)
+  );
 
   useEffect(() => {
     const data = questions.map((el) => ({ id: el.id, order: el.order }));
@@ -21,7 +24,6 @@ export default function TemplateQuestions({ data, position, setPosition }) {
   }, [questions]);
 
   function handleUpdate(newQuestions) {
-    setPosition();
     const updatedQuestions = newQuestions.map((question, index) => ({
       ...question,
       order: index + 1,
@@ -38,7 +40,7 @@ export default function TemplateQuestions({ data, position, setPosition }) {
       order: index + 1,
     }));
     setQuestions(updatedQuestions);
-    setPosition(e.newIndex + 2);
+    setPosition(0);
   }
 
   function createQuestionFetch() {
@@ -85,6 +87,7 @@ export default function TemplateQuestions({ data, position, setPosition }) {
     deleteQuestion(question.id)
       .then(() => {
         setQuestions(result);
+        setPosition(0);
       })
       .catch((e) => {
         console.log(e);
@@ -115,18 +118,24 @@ export default function TemplateQuestions({ data, position, setPosition }) {
                 id={item.id}
                 onClick={handlePosition}
                 className="sortable-item"
-                style={{ width: "100%", height: 40 }}
+                style={{
+                  display: "flex",
+                  width: "100%",
+                }}
               >
-                <span
-                  className="drag-handle"
-                  style={{
-                    cursor: "move",
-                    marginRight: "10px",
-                  }}
-                >
-                  <MenuOutlined />
-                </span>
-                {item.title} (Order: {item.order})
+                <div style={{ paddingTop: 15 }}>
+                  <span
+                    className="drag-handle"
+                    style={{
+                      cursor: "move",
+                      marginRight: "5px",
+                    }}
+                  >
+                    <MenuOutlined style={{ color: "rgba(5, 5, 5, 0.3)" }} />
+                  </span>
+                </div>
+
+                <Question data={item} />
               </div>
               <Flex justify="center" style={{ margin: "10px 0", gap: 5 }}>
                 {position === item.order + 1 && (

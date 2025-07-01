@@ -179,3 +179,11 @@ export function updateQuestionsByOrder(data) {
     data,
   });
 }
+
+export default function updateQuestion(id, data) {
+  return axios({
+    method: "PATCH",
+    url: `http://localhost:5000/questions/${id}`,
+    data,
+  });
+}
