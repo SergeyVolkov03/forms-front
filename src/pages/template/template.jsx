@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import TemplateHeader from "../../components/template/template-header";
 import { Divider, Flex, Spin } from "antd";
 import "./template.css";
 import { useEffect, useState } from "react";
 import { getTemplateByid, getUser } from "../../api/api";
 import { LoadingOutlined } from "@ant-design/icons";
+import Template from "../../components/template/template";
 // import { useAuth } from "../../provider/authProvider";
 // import { useState } from "react";
 
@@ -28,7 +28,7 @@ export default function TemplatePage() {
           <Divider />
           {templateData ? (
             <>
-              <TemplateHeader data={templateData} />
+              <Template data={templateData} />
               <Divider />
             </>
           ) : (

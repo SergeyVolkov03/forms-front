@@ -1,4 +1,4 @@
-import "./template-header.css";
+import "./template.css";
 import TemplateTitle from "./template-title/template-title";
 import TemplateTags from "./template-tags/template-tags";
 import TemplateDescription from "./template-description/template-description";
@@ -10,7 +10,7 @@ import { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import TemplateQuestions from "./template-questions/template-question";
 
-export default function TemplateHeader({ data }) {
+export default function Template({ data }) {
   const [imageUrl, setImageUrl] = useState(data.image);
   const [position, setPosition] = useState(1);
 

@@ -1,4 +1,4 @@
-import { Button, Flex, Select } from "antd";
+import { Button, Flex, Select, Switch } from "antd";
 import QuestionDescription from "./question-description/question-description";
 import QuestionTitle from "./question-title/question-title";
 import updateQuestion, {
@@ -21,11 +21,11 @@ const DATA = {
 export default function Question({ data }) {
   const [type, setType] = useState(DATA[data.type]);
   const [answerOptions, setAnswerOptions] = useState([]);
+  const [isDisplayed, setIsDisplayed] = useState(data.is_displayed);
 
   useEffect(() => {
     getQuestion(data.id)
       .then((res) => {
-        console.log(res.data, res.data.answer_options);
         setAnswerOptions(res.data.answer_options);
       })
       .catch((e) => {
@@ -81,6 +81,13 @@ export default function Question({ data }) {
     setAnswerOptions((prev) => prev.filter((item) => item.id !== id));
   }
 
+  function onChangeIsDisplayed(e) {
+    setIsDisplayed(e);
+    updateQuestion(data.id, { is_displayed: e }).catch((e) => {
+      console.log(e);
+    });
+  }
+
   return (
     <Flex
       vertical
@@ -103,6 +110,15 @@ export default function Question({ data }) {
         />
       </Flex>
       <QuestionDescription data={data} />
+      <div style={{ fontSize: 14, fontWeight: 300, margin: "5px" }}>
+        Show in the table
+        <Switch
+          style={{ marginLeft: 5 }}
+          value={isDisplayed}
+          onChange={onChangeIsDisplayed}
+          size="small"
+        />
+      </div>
       {!!answerOptions.length &&
         answerOptions.map((item) => (
           <div key={item.id}>

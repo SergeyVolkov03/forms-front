@@ -131,9 +131,17 @@ export default function TemplateUsers({ data }) {
 
   return (
     <>
-      <div style={{ marginBottom: 10, marginTop: 5, paddingLeft: 10 }}>
-        Your template is public{" "}
+      <div
+        style={{
+          marginBottom: 10,
+          marginTop: 5,
+          paddingLeft: 10,
+          fontWeight: 300,
+        }}
+      >
+        Your template is public
         <Switch
+          style={{ marginLeft: 5 }}
           defaultValue={isPublick}
           onChange={onChangeSwith}
           size="small"

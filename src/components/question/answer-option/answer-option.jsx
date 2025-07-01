@@ -7,17 +7,12 @@ import "./answer-option.css";
 
 export default function AnswerOption({ data, onDelete, isDelete }) {
   const [value, setValue] = useState(data.value);
-  console.log(onDelete, isDelete);
 
   useEffect(() => {
     async function fetchValue() {
-      updateAnswerOption(data.id, { value })
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      updateAnswerOption(data.id, { value }).catch((e) => {
+        console.log(e);
+      });
     }
     const timer = setTimeout(() => {
       fetchValue();
