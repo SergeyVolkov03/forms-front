@@ -187,3 +187,34 @@ export default function updateQuestion(id, data) {
     data,
   });
 }
+
+export function getQuestion(id) {
+  return axios({
+    method: "GET",
+    url: `http://localhost:5000/questions/${id}`,
+  });
+}
+
+export function createAnswerOption(data) {
+  return axios({
+    method: "POST",
+    url: "http://localhost:5000/answer-option",
+    data,
+  });
+}
+
+export function updateAnswerOption(id, data) {
+  return axios({
+    method: "PATCH",
+    url: `http://localhost:5000/answer-option/${id}`,
+    data,
+  });
+}
+
+export function deleteAnswerOtions(data) {
+  return axios({
+    method: "DELETE",
+    url: `http://localhost:5000/answer-option`,
+    data,
+  });
+}

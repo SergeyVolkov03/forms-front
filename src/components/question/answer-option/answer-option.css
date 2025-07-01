@@ -1,0 +1,10 @@
+.delete-icon {
+  color: rgba(5, 5, 5, 0.3);
+  cursor: "pointer";
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.delete-icon:hover {
+  color: #f50;
+}
