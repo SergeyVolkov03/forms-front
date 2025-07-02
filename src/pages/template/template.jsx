@@ -1,11 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Divider, Flex, Spin, Tabs } from "antd";
 import "./template.css";
 import { useEffect, useState } from "react";
-import { getTemplateByid, getUser } from "../../api/api";
+import { createForm, getTemplateByid, getUser } from "../../api/api";
 import { LoadingOutlined } from "@ant-design/icons";
 import Template from "../../components/template/template";
 import { useAuth } from "../../provider/authProvider";
+import { jwtDecode } from "jwt-decode";
 
 export default function TemplatePage() {
   const [templateData, setTemplateData] = useState();
@@ -14,6 +15,7 @@ export default function TemplatePage() {
   const { id } = useParams();
   const [isFill, setIsFill] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTemplateByid(+id)
@@ -35,11 +37,15 @@ export default function TemplatePage() {
             templateData.author_id === res.data.id ||
             res.data.is_admin === true
           ) {
+            setIsFill(true);
             setIsRead(false);
           } else {
             setIsRead(true);
           }
-          if (templateData.fillers.some((el) => el.id === res.data.id)) {
+          if (
+            templateData.fillers.some((el) => el.id === res.data.id) ||
+            templateData.is_public
+          ) {
             setIsFill(true);
           }
         })
@@ -53,6 +59,16 @@ export default function TemplatePage() {
     }
   }, [templateData, token]);
 
+  function fillInForm() {
+    createForm({ template_id: +id, user_id: jwtDecode(token).userId })
+      .then((res) => {
+        navigate(`/form/${res.data.id}`);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
   const items = [
     {
       key: "1",
@@ -62,7 +78,7 @@ export default function TemplatePage() {
           <Flex justify="center">
             <Flex vertical className="template-container">
               <Flex justify="center">
-                <Button type="primary" disabled={!isFill}>
+                <Button type="primary" disabled={!isFill} onClick={fillInForm}>
                   Fill in this form
                 </Button>
               </Flex>
@@ -83,7 +99,15 @@ export default function TemplatePage() {
     {
       key: "2",
       label: "Forms",
-      children: "Content of Tab Pane 2",
+      children: (
+        <>
+          {isRead ? (
+            <Flex justify="center">You can`t see forms</Flex>
+          ) : (
+            <Flex justify="center">You can see it</Flex>
+          )}
+        </>
+      ),
     },
   ];
 

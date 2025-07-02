@@ -218,3 +218,26 @@ export function deleteAnswerOtions(data) {
     data,
   });
 }
+
+export function createForm(data) {
+  return axios({
+    method: "POST",
+    url: `http://localhost:5000/forms`,
+    data,
+  });
+}
+
+export function getForm(id) {
+  return axios({
+    method: "GET",
+    url: `http://localhost:5000/forms/${id}`,
+  });
+}
+
+export function createManyAnswers(data) {
+  return axios({
+    method: "POST",
+    url: `http://localhost:5000/answers/many`,
+    data,
+  });
+}

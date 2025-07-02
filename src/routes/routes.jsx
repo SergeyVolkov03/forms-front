@@ -8,6 +8,7 @@ import RegistrationPage from "../pages/registration/registration";
 import AdminPage from "../pages/admin/admin";
 import TemplatePage from "../pages/template/template";
 import ProfilePage from "../pages/profile/profile";
+import FormPage from "../pages/form/form";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -49,6 +50,10 @@ const Routes = () => {
             {
               path: "/profile/:id",
               element: <ProfilePage />,
+            },
+            {
+              path: "/form/:id",
+              element: <FormPage />,
             },
             {
               path: "*",

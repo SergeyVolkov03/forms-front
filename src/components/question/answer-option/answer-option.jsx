@@ -41,8 +41,8 @@ export default function AnswerOption({ data, onDelete, isDelete, disabled }) {
       />
       {isDelete && (
         <CloseOutlined
-          className="delete-icon"
-          onClick={onDelete}
+          className={disabled ? "delete-icon-disabled" : "delete-icon"}
+          onClick={disabled ? undefined : onDelete}
           disabled={disabled}
         />
       )}

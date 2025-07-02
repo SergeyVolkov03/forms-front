@@ -139,7 +139,7 @@ export default function TemplateUsers({ data, disabled }) {
           fontWeight: 300,
         }}
       >
-        Your template is public
+        Template is public
         <Switch
           disabled={disabled}
           style={{ marginLeft: 5 }}
