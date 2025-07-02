@@ -9,7 +9,12 @@ import {
 import { MenuOutlined } from "@ant-design/icons";
 import Question from "../../question/question";
 
-export default function TemplateQuestions({ data, position, setPosition }) {
+export default function TemplateQuestions({
+  data,
+  position,
+  setPosition,
+  disabled,
+}) {
   const [questions, setQuestions] = useState(
     data.questions.sort((a, b) => a.order - b.order)
   );
@@ -98,13 +103,18 @@ export default function TemplateQuestions({ data, position, setPosition }) {
     <>
       {position === 1 && (
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button onClick={createQuestionFetch} style={{ marginBottom: 5 }}>
+          <Button
+            onClick={createQuestionFetch}
+            style={{ marginBottom: 5 }}
+            disabled={disabled}
+          >
             Add question
           </Button>
         </div>
       )}
       <div className="questions">
         <ReactSortable
+          disabled={disabled}
           list={questions}
           setList={handleUpdate}
           onEnd={handleSortEnd}
@@ -135,13 +145,20 @@ export default function TemplateQuestions({ data, position, setPosition }) {
                   </span>
                 </div>
 
-                <Question data={item} />
+                <Question data={item} disabled={disabled} />
               </div>
               <Flex justify="center" style={{ margin: "10px 0", gap: 5 }}>
                 {position === item.order + 1 && (
                   <>
-                    <Button onClick={createQuestionFetch}>Add question</Button>
-                    <Button danger ghost onClick={removeQuestion}>
+                    <Button disabled={disabled} onClick={createQuestionFetch}>
+                      Add question
+                    </Button>
+                    <Button
+                      disabled={disabled}
+                      danger
+                      ghost
+                      onClick={removeQuestion}
+                    >
                       Delete question
                     </Button>
                   </>

@@ -10,7 +10,7 @@ import { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import TemplateQuestions from "./template-questions/template-question";
 
-export default function Template({ data }) {
+export default function Template({ data, disabled }) {
   const [imageUrl, setImageUrl] = useState(data.image);
   const [position, setPosition] = useState(1);
 
@@ -58,28 +58,34 @@ export default function Template({ data }) {
         {imageUrl && (
           <img src={imageUrl} alt="template-image" className="template-img" />
         )}
-        <TemplateTitle data={data} />
-        <TemplateDescription data={data} />
-        <TemplateTopic data={data} />
+        <TemplateTitle data={data} disabled={disabled} />
+        <TemplateDescription data={data} disabled={disabled} />
+        <TemplateTopic data={data} disabled={disabled} />
         <Flex style={{ marginBottom: 5 }}>
           {imageUrl ? (
-            <Button onClick={removeImage}>Delete image</Button>
+            <Button onClick={removeImage} disabled={disabled}>
+              Delete image
+            </Button>
           ) : (
             <Upload
+              disabled={disabled}
               customRequest={handleUpload}
               listType="picture"
               maxCount={1}
               accept="image/*"
             >
-              <Button icon={<UploadOutlined />}>Upload image</Button>
+              <Button icon={<UploadOutlined />} disabled={disabled}>
+                Upload image
+              </Button>
             </Upload>
           )}
         </Flex>
-        <TemplateTags data={data} />
-        <TemplateUsers data={data} />
+        <TemplateTags data={data} disabled={disabled} />
+        <TemplateUsers data={data} disabled={disabled} />
       </div>
       <Divider />
       <TemplateQuestions
+        disabled={disabled}
         data={data}
         position={position}
         setPosition={setPosition}

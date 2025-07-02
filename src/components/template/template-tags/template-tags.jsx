@@ -8,7 +8,7 @@ import {
   updateTemplate,
 } from "../../../api/api";
 
-export default function TemplateTags({ data }) {
+export default function TemplateTags({ data, disabled }) {
   const [tags, setTags] = useState(data.tags);
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
@@ -91,9 +91,9 @@ export default function TemplateTags({ data }) {
       <div className="tags-container" style={{ marginBottom: 5 }}>
         {tags.map((tag) => (
           <Tag
-            color="geekblue"
+            color={disabled ? "default" : "geekblue"}
+            closable={!disabled}
             key={tag.id}
-            closable
             onClose={() => removeTag(tag.id)}
             closeIcon={<CloseOutlined />}
           >
@@ -108,6 +108,7 @@ export default function TemplateTags({ data }) {
           style={{ display: "flex", gap: 8 }}
         >
           <AutoComplete
+            disabled={disabled}
             style={{ width: "100%" }}
             options={inputValue.trim() === "" ? [] : options}
             placeholder="Enter tag"
@@ -117,7 +118,12 @@ export default function TemplateTags({ data }) {
               setInputValue(value);
             }}
           />
-          <Button icon={<PlusOutlined />} onClick={addTag} loading={loading}>
+          <Button
+            icon={<PlusOutlined />}
+            onClick={addTag}
+            loading={loading}
+            disabled={disabled}
+          >
             Add tag
           </Button>
         </div>

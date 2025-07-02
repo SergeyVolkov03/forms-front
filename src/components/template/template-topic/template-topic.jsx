@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getTopicsFeth, updateTemplate } from "../../../api/api";
 import { Select } from "antd";
 
-export default function TemplateTopic({ data }) {
+export default function TemplateTopic({ data, disabled }) {
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {
@@ -30,6 +30,7 @@ export default function TemplateTopic({ data }) {
     <>
       {topics.length && (
         <Select
+          disabled={disabled}
           defaultValue={data.topic.name}
           options={topics}
           style={{ width: "100%", marginBottom: 5 }}

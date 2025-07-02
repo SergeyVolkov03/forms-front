@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import { updateTemplate } from "../../../api/api";
 
-export default function TemplateTitle({ data }) {
+export default function TemplateTitle({ data, disabled }) {
   const [title, setTitle] = useState(data.title);
 
   useEffect(() => {
@@ -25,6 +25,7 @@ export default function TemplateTitle({ data }) {
   return (
     <>
       <TextArea
+        disabled={disabled}
         placeholder="Title"
         autoSize
         value={title}

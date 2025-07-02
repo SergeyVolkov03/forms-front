@@ -8,7 +8,7 @@ import {
 
 const { Option } = Select;
 
-export default function TemplateUsers({ data }) {
+export default function TemplateUsers({ data, disabled }) {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -94,8 +94,8 @@ export default function TemplateUsers({ data }) {
     const { label, closable, onClose } = props;
     return (
       <Tag
-        color="geekblue"
-        closable={closable}
+        color={disabled ? "default" : "geekblue"}
+        closable={disabled ? false : closable}
         onClose={onClose}
         style={{ margin: "4px" }}
       >
@@ -141,6 +141,7 @@ export default function TemplateUsers({ data }) {
       >
         Your template is public
         <Switch
+          disabled={disabled}
           style={{ marginLeft: 5 }}
           defaultValue={isPublick}
           onChange={onChangeSwith}
@@ -150,6 +151,7 @@ export default function TemplateUsers({ data }) {
       {!isPublick && (
         <>
           <Radio.Group
+            disabled={disabled}
             style={{ marginBottom: 5 }}
             block
             options={optionsForRadio}
@@ -158,6 +160,7 @@ export default function TemplateUsers({ data }) {
             onChange={onChangeRadio}
           />
           <Select
+            disabled={disabled}
             mode="multiple"
             showSearch
             value={selectValue}

@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../../api/api";
-import MyTemplates from "../../components/my-templates/my-templates";
 import { useEffect } from "react";
 import { useAuth } from "../../provider/authProvider";
+import { Tabs } from "antd";
+import TemplateTable from "../../components/template-table/template-table";
 
 export default function ProfilePage() {
   const { token, setAuthToken } = useAuth();
@@ -14,6 +15,19 @@ export default function ProfilePage() {
     if (user.is_admin || user.id === +id) return;
     navigate("/");
   }
+
+  const items = [
+    {
+      key: "1",
+      label: "My templates",
+      children: <TemplateTable user_id={id} />,
+    },
+    {
+      key: "2",
+      label: "My forms",
+      children: "Content of Tab Pane 2",
+    },
+  ];
 
   useEffect(() => {
     if (token) {
@@ -27,5 +41,5 @@ export default function ProfilePage() {
     }
   }, []);
 
-  return <MyTemplates user_id={id} />;
+  return <Tabs defaultActiveKey="1" items={items} centered />;
 }

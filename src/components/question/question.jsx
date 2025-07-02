@@ -18,7 +18,7 @@ const DATA = {
   MULTIPLE_CHOICE: "Multiple choice",
 };
 
-export default function Question({ data }) {
+export default function Question({ data, disabled }) {
   const [type, setType] = useState(DATA[data.type]);
   const [answerOptions, setAnswerOptions] = useState([]);
   const [isDisplayed, setIsDisplayed] = useState(data.is_displayed);
@@ -99,8 +99,9 @@ export default function Question({ data }) {
       }}
     >
       <Flex style={{ gap: 5 }}>
-        <QuestionTitle data={data} />
+        <QuestionTitle data={data} disabled={disabled} />
         <Select
+          disabled={disabled}
           listHeight={100}
           placeholder="Type"
           defaultValue={type}
@@ -109,10 +110,11 @@ export default function Question({ data }) {
           onChange={onChangeType}
         />
       </Flex>
-      <QuestionDescription data={data} />
+      <QuestionDescription data={data} disabled={disabled} />
       <div style={{ fontSize: 14, fontWeight: 300, margin: "5px" }}>
         Show in the table
         <Switch
+          disabled={disabled}
           style={{ marginLeft: 5 }}
           value={isDisplayed}
           onChange={onChangeIsDisplayed}
@@ -123,6 +125,7 @@ export default function Question({ data }) {
         answerOptions.map((item) => (
           <div key={item.id}>
             <AnswerOption
+              disabled={disabled}
               data={item}
               onDelete={() => {
                 deleteOption(item.id);
@@ -134,6 +137,7 @@ export default function Question({ data }) {
       {answerOptions.length > 0 && (
         <Flex justify="center" style={{ margin: "5px 0" }}>
           <Button
+            disabled={disabled}
             icon={<PlusOutlined />}
             style={{ marginRight: 30 }}
             onClick={addAnswerOption}
