@@ -234,7 +234,7 @@ export function getForm(id) {
   });
 }
 
-export function createManyAnswers(data) {
+export function upsertManyAnswers(data) {
   return axios({
     method: "POST",
     url: `http://localhost:5000/answers/many`,

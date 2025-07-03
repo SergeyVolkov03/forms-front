@@ -10,14 +10,14 @@ import {
   Radio,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { createManyAnswers } from "../../../api/api";
+import { upsertManyAnswers } from "../../../api/api";
 import { useNavigate } from "react-router-dom";
 
-export default function FormQuestions({ data }) {
+export default function FormQuestions({ data, disabled }) {
   const questions = data.template.questions.sort((a, b) => a.order - b.order);
   const [api, contextHolder] = notification.useNotification();
   const navigate = useNavigate();
-
+  console.log(questions, data);
   function openNotificationSucces(text) {
     api.success({
       description: text,
@@ -28,36 +28,22 @@ export default function FormQuestions({ data }) {
     const newData = Object.entries(values).map(([id, value]) => {
       return {
         id: Number(id),
-        value: Array.isArray(value)
-          ? value.map((el) => {
-              const newEl = el.split("-");
-              newEl.pop();
-              return newEl.join("-");
-            })
-          : [String(value)],
+        value: Array.isArray(value) ? value : [String(value)],
       };
     });
-    const fetchData = newData.map((el) => {
-      const question = questions.filter((q) => q.id === el.id);
-      if (question[0].type === "SINGLE_CHOICE") {
-        const value = el.value[0].split("-");
-        value.pop();
-        return {
-          form_id: data.id,
-          question_id: el.id,
-          value: [value.join("-")],
-        };
-      } else {
-        return { form_id: data.id, question_id: el.id, value: el.value };
-      }
-    });
+    const fetchData = newData.map((el) => ({
+      form_id: data.id,
+      question_id: el.id,
+      value: el.value,
+    }));
 
-    openNotificationSucces("The form is completed");
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
-    createManyAnswers({ answers: fetchData })
-      .then((res) => {})
+    upsertManyAnswers({ answers: fetchData })
+      .then(() => {
+        openNotificationSucces("The form is completed");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      })
       .catch((e) => {
         console.log(e);
       });
@@ -87,13 +73,14 @@ export default function FormQuestions({ data }) {
                 <div>{el.title}</div>
                 <div>{el.description}</div>
                 <Form.Item
+                  initialValue={el.answers[0]?.value[0]}
                   name={el.id}
                   rules={[
                     { required: true, message: "Please answer the question" },
                     { max: 100, message: "Your answer too long" },
                   ]}
                 >
-                  <Input required />
+                  <Input required disabled={disabled} />
                 </Form.Item>
               </Flex>
             );
@@ -104,12 +91,18 @@ export default function FormQuestions({ data }) {
                 <div>{el.title}</div>
                 <div>{el.description}</div>
                 <Form.Item
+                  initialValue={el.answers[0]?.value[0]}
                   name={el.id}
                   rules={[
                     { required: true, message: "Please answer the question" },
                   ]}
                 >
-                  <TextArea required autoSize />
+                  <TextArea
+                    required
+                    autoSize
+                    disabled={disabled}
+                    value={el.answers[0]}
+                  />
                 </Form.Item>
               </Flex>
             );
@@ -120,6 +113,7 @@ export default function FormQuestions({ data }) {
                 <div>{el.title}</div>
                 <div>{el.description}</div>
                 <Form.Item
+                  initialValue={Number(el.answers[0]?.value[0])}
                   name={el.id}
                   rules={[
                     {
@@ -134,6 +128,8 @@ export default function FormQuestions({ data }) {
                   ]}
                 >
                   <InputNumber
+                    value={Number(el.answers[0]?.value[0])}
+                    disabled={disabled}
                     min={0}
                     step={1}
                     precision={0}
@@ -149,6 +145,7 @@ export default function FormQuestions({ data }) {
                 <div>{el.title}</div>
                 <div>{el.description}</div>
                 <Form.Item
+                  initialValue={el.answers[0]?.value[0]}
                   name={el.id}
                   rules={[
                     {
@@ -158,9 +155,10 @@ export default function FormQuestions({ data }) {
                   ]}
                 >
                   <Radio.Group
+                    disabled={disabled}
                     options={el.answer_options.map((item) => ({
                       label: item.value,
-                      value: `${item.value}-${item.id}`,
+                      value: `${item.id}`,
                     }))}
                   />
                 </Form.Item>
@@ -173,6 +171,7 @@ export default function FormQuestions({ data }) {
                 <div>{el.title}</div>
                 <div>{el.description}</div>
                 <Form.Item
+                  initialValue={el.answers[0]?.value}
                   name={el.id}
                   rules={[
                     {
@@ -182,9 +181,10 @@ export default function FormQuestions({ data }) {
                   ]}
                 >
                   <Checkbox.Group
+                    disabled={disabled}
                     options={el.answer_options.map((item) => ({
                       label: item.value,
-                      value: `${item.value}-${item.id}`,
+                      value: `${item.id}`,
                     }))}
                   />
                 </Form.Item>
@@ -194,7 +194,7 @@ export default function FormQuestions({ data }) {
         })}
         <Flex justify="center">
           <Form.Item label={null}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" disabled={disabled}>
               Submit
             </Button>
           </Form.Item>
