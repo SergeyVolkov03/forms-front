@@ -258,3 +258,10 @@ export function deleteManyForms(ids) {
     },
   });
 }
+
+export function getFormsByTemplateId(id) {
+  return axios({
+    method: "GET",
+    url: `http://localhost:5000/forms/template/${id}`,
+  });
+}

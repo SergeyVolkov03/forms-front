@@ -9,14 +9,38 @@ import {
   getUsers,
   updateUsers,
 } from "../../api/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const columns = [
-  { title: "Name", dataIndex: "name" },
-  { title: "Email", dataIndex: "email" },
-  { title: "Block status", dataIndex: "blockStatus" },
-  { title: "Status", dataIndex: "status" },
-  { title: "Last Seen", dataIndex: "lastSeen" },
+  {
+    title: "Name",
+    dataIndex: "name",
+    sorter: (a, b) => String(a.name).localeCompare(b.name),
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    sorter: (a, b) =>
+      String(a.email.props.children).localeCompare(b.email.props.children),
+  },
+  {
+    title: "Block status",
+    dataIndex: "blockStatus",
+    sorter: (a, b) => a.blockStatus - b.blockStatus,
+    render: (blockStatus) => (blockStatus ? "blocked" : "active"),
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
+    sorter: (a, b) => (a.status === b.status ? 0 : a.status ? -1 : 1),
+    render: (status) => (status ? "Admin" : "User"),
+  },
+  {
+    title: "Last Seen",
+    dataIndex: "lastSeen",
+    render: (date) => moment(date).fromNow(),
+    sorter: (a, b) => moment(a.lastSeen).unix() - moment(b.lastSeen).unix(),
+  },
 ];
 
 export default function AdminTable() {
@@ -101,10 +125,10 @@ export default function AdminTable() {
   const dataSource = dataSourceSorted.map((element) => ({
     key: element.id,
     name: user.id === element.id ? element.name + " (it's you)" : element.name,
-    email: element.email,
-    blockStatus: element.is_blocked ? "blocked" : "active",
-    status: element.is_admin ? "admin" : "user",
-    lastSeen: moment(element.last_time_at).fromNow(),
+    email: <Link to={`/profile/${element.id}`}>{element.email}</Link>,
+    blockStatus: element.is_blocked,
+    status: element.is_admin,
+    lastSeen: element.last_time_at,
   }));
 
   const onSelectChange = (newSelectedRowKeys) => {

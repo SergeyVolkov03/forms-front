@@ -7,6 +7,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import Template from "../../components/template/template";
 import { useAuth } from "../../provider/authProvider";
 import { jwtDecode } from "jwt-decode";
+import TemplateFormTable from "../../components/template/template-form-table/template-form-table";
 
 export default function TemplatePage() {
   const [templateData, setTemplateData] = useState();
@@ -104,7 +105,7 @@ export default function TemplatePage() {
           {isRead ? (
             <Flex justify="center">You can`t see forms</Flex>
           ) : (
-            <Flex justify="center">You can see it</Flex>
+            <TemplateFormTable template_id={id} />
           )}
         </>
       ),
