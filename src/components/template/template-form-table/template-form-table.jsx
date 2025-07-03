@@ -12,7 +12,16 @@ const columns = [
     sorter: (a, b) =>
       String(a.title.props.children).localeCompare(b.title.props.children),
   },
-  { title: "Description", dataIndex: "description" },
+  {
+    title: "Name",
+    dataIndex: "name",
+    sorter: (a, b) => String(a.name).localeCompare(b.name),
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    sorter: (a, b) => String(a.email).localeCompare(b.email),
+  },
   {
     title: "Created at",
     dataIndex: "created_at",
@@ -23,6 +32,7 @@ const columns = [
 
 export default function TemplateFormTable({ template_id }) {
   const [data, setData] = useState([]);
+  console.log(data);
 
   useEffect(() => {
     getFormsByTemplateId(template_id).then((res) => {
@@ -33,7 +43,8 @@ export default function TemplateFormTable({ template_id }) {
   const dataSource = data.map((element) => ({
     key: element.id,
     title: <Link to={`/form/${element.id}`}>{element.template.title}</Link>,
-    description: element.template.description,
+    name: element.user.name,
+    email: element.user.email,
     created_at: element.createdAt,
   }));
 

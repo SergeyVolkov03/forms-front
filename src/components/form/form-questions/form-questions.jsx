@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function FormQuestions({ data, disabled }) {
   const questions = data.template.questions.sort((a, b) => a.order - b.order);
+
   const [api, contextHolder] = notification.useNotification();
   const navigate = useNavigate();
   function openNotificationSucces(text) {
@@ -72,7 +73,10 @@ export default function FormQuestions({ data, disabled }) {
                 <div>{el.title}</div>
                 <div>{el.description}</div>
                 <Form.Item
-                  initialValue={el.answers[0]?.value[0]}
+                  initialValue={
+                    data.answers.find((a) => a.question_id === el.id)
+                      ?.value[0] || undefined
+                  }
                   name={el.id}
                   rules={[
                     { required: true, message: "Please answer the question" },
@@ -90,7 +94,10 @@ export default function FormQuestions({ data, disabled }) {
                 <div>{el.title}</div>
                 <div>{el.description}</div>
                 <Form.Item
-                  initialValue={el.answers[0]?.value[0]}
+                  initialValue={
+                    data.answers.find((a) => a.question_id === el.id)
+                      ?.value[0] || undefined
+                  }
                   name={el.id}
                   rules={[
                     { required: true, message: "Please answer the question" },
@@ -112,7 +119,12 @@ export default function FormQuestions({ data, disabled }) {
                 <div>{el.title}</div>
                 <div>{el.description}</div>
                 <Form.Item
-                  initialValue={Number(el.answers[0]?.value[0])}
+                  initialValue={
+                    Number(
+                      data.answers.find((a) => a.question_id === el.id)
+                        ?.value[0]
+                    ) || undefined
+                  }
                   name={el.id}
                   rules={[
                     {
@@ -127,7 +139,6 @@ export default function FormQuestions({ data, disabled }) {
                   ]}
                 >
                   <InputNumber
-                    value={Number(el.answers[0]?.value[0])}
                     disabled={disabled}
                     min={0}
                     step={1}
@@ -144,7 +155,10 @@ export default function FormQuestions({ data, disabled }) {
                 <div>{el.title}</div>
                 <div>{el.description}</div>
                 <Form.Item
-                  initialValue={el.answers[0]?.value[0]}
+                  initialValue={
+                    data.answers.find((a) => a.question_id === el.id)
+                      ?.value[0] || undefined
+                  }
                   name={el.id}
                   rules={[
                     {
@@ -170,7 +184,10 @@ export default function FormQuestions({ data, disabled }) {
                 <div>{el.title}</div>
                 <div>{el.description}</div>
                 <Form.Item
-                  initialValue={el.answers[0]?.value}
+                  initialValue={
+                    data.answers.find((a) => a.question_id === el.id)?.value ||
+                    undefined
+                  }
                   name={el.id}
                   rules={[
                     {

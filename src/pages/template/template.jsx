@@ -51,7 +51,6 @@ export default function TemplatePage() {
           }
         })
         .catch((e) => {
-          console.log(e);
           setAuthToken();
         });
     } else {
