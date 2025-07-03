@@ -241,3 +241,20 @@ export function upsertManyAnswers(data) {
     data,
   });
 }
+
+export function getFormsByUserId(id) {
+  return axios({
+    method: "GET",
+    url: `http://localhost:5000/forms/user/${id}`,
+  });
+}
+
+export function deleteManyForms(ids) {
+  return axios({
+    method: "DELETE",
+    url: `http://localhost:5000/forms`,
+    data: {
+      ids: ids,
+    },
+  });
+}

@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useAuth } from "../../provider/authProvider";
 import { Tabs } from "antd";
 import TemplateTable from "../../components/template-table/template-table";
+import FormTable from "../../components/form-table/form-table";
 
 export default function ProfilePage() {
   const { token, setAuthToken } = useAuth();
@@ -25,7 +26,7 @@ export default function ProfilePage() {
     {
       key: "2",
       label: "My forms",
-      children: "Content of Tab Pane 2",
+      children: <FormTable user_id={id} />,
     },
   ];
 

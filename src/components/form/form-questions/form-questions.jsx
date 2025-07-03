@@ -17,7 +17,6 @@ export default function FormQuestions({ data, disabled }) {
   const questions = data.template.questions.sort((a, b) => a.order - b.order);
   const [api, contextHolder] = notification.useNotification();
   const navigate = useNavigate();
-  console.log(questions, data);
   function openNotificationSucces(text) {
     api.success({
       description: text,
