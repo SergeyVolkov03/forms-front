@@ -1,0 +1,30 @@
+.home-title {
+  color: #384194;
+  text-align: center;
+}
+.card-container {
+  margin-top: 20px;
+
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.card-item {
+  padding: 5px;
+}
+.card-link {
+  color: #504f4e;
+}
+.card-item span {
+  color: #bdbdbd;
+}
+
+.card {
+  width: 200px;
+}
+
+.ant-card-body {
+  padding: 0 !important;
+  height: 100%;
+}

@@ -9,6 +9,7 @@ import AdminPage from "../pages/admin/admin";
 import TemplatePage from "../pages/template/template";
 import ProfilePage from "../pages/profile/profile";
 import FormPage from "../pages/form/form";
+import HomePage from "../pages/home/home";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -20,7 +21,7 @@ const Routes = () => {
       children: [
         {
           path: "/",
-          element: <div>home page</div>,
+          element: <HomePage />,
         },
         {
           path: "/search",

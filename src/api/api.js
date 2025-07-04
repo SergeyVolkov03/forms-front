@@ -115,6 +115,20 @@ export function getTemplateByid(id) {
   });
 }
 
+export function getLatesTmaplates(query) {
+  return axios({
+    method: "GET",
+    url: `http://localhost:5000/templates/latest?limit=${query}`,
+  });
+}
+
+export function getPopularTmaplates(query) {
+  return axios({
+    method: "GET",
+    url: `http://localhost:5000/templates/popular?limit=${query}`,
+  });
+}
+
 export function deleteTemplatesFetch(ids) {
   return axios({
     method: "DELETE",
