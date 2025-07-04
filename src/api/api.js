@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 export function fetchLoginData(data) {
   return axios({
     method: "post",
-    url: "http://localhost:5000/auth/login",
+    url: "https://forms-api-69j3.onrender.com/auth/login",
     data: data,
   });
 }
@@ -12,7 +12,7 @@ export function fetchLoginData(data) {
 export function fetchRegistrationData(data) {
   return axios({
     method: "post",
-    url: "http://localhost:5000/auth/registration",
+    url: "https://forms-api-69j3.onrender.com/auth/registration",
     data: data,
   });
 }
@@ -21,7 +21,7 @@ export function getUser(token) {
   const userId = jwtDecode(token).userId;
   return axios({
     method: "get",
-    url: `http://localhost:5000/users/${userId}`,
+    url: `https://forms-api-69j3.onrender.com/users/${userId}`,
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -31,7 +31,7 @@ export function getUser(token) {
 export function getUserByUserName(value) {
   return axios({
     method: "GET",
-    url: "http://localhost:5000/users/search/username",
+    url: "https://forms-api-69j3.onrender.com/users/search/username",
     params: {
       query: value,
     },
@@ -41,7 +41,7 @@ export function getUserByUserName(value) {
 export function getUserByEmail(value) {
   return axios({
     method: "GET",
-    url: "http://localhost:5000/users/search/email",
+    url: "https://forms-api-69j3.onrender.com/users/search/email",
     params: {
       query: value,
     },
@@ -51,7 +51,7 @@ export function getUserByEmail(value) {
 export function getUsers(token) {
   return axios({
     method: "get",
-    url: "http://localhost:5000/users",
+    url: "https://forms-api-69j3.onrender.com/users",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -61,7 +61,7 @@ export function getUsers(token) {
 export function updateUsers(token, ids, data) {
   return axios({
     method: "PATCH",
-    url: "http://localhost:5000/users",
+    url: "https://forms-api-69j3.onrender.com/users",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -75,7 +75,7 @@ export function updateUsers(token, ids, data) {
 export function deleteUsersFetch(token, ids) {
   return axios({
     method: "DELETE",
-    url: "http://localhost:5000/users",
+    url: "https://forms-api-69j3.onrender.com/users",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -88,7 +88,7 @@ export function deleteUsersFetch(token, ids) {
 export function createTemplate(data) {
   return axios({
     method: "POST",
-    url: "http://localhost:5000/templates",
+    url: "https://forms-api-69j3.onrender.com/templates",
     data: data,
   });
 }
@@ -96,7 +96,7 @@ export function createTemplate(data) {
 export function updateTemplate(id, data) {
   return axios({
     method: "PATCH",
-    url: `http://localhost:5000/templates/${id}`,
+    url: `https://forms-api-69j3.onrender.com/templates/${id}`,
     data,
   });
 }
@@ -104,35 +104,35 @@ export function updateTemplate(id, data) {
 export function getTemplatesByUserId(id) {
   return axios({
     method: "GET",
-    url: `http://localhost:5000/templates/user/${id}`,
+    url: `https://forms-api-69j3.onrender.com/templates/user/${id}`,
   });
 }
 
 export function getTemplateByid(id) {
   return axios({
     method: "GET",
-    url: `http://localhost:5000/templates/${id}`,
+    url: `https://forms-api-69j3.onrender.com/templates/${id}`,
   });
 }
 
 export function getLatesTmaplates(query) {
   return axios({
     method: "GET",
-    url: `http://localhost:5000/templates/latest?limit=${query}`,
+    url: `https://forms-api-69j3.onrender.com/templates/latest?limit=${query}`,
   });
 }
 
 export function getPopularTmaplates(query) {
   return axios({
     method: "GET",
-    url: `http://localhost:5000/templates/popular?limit=${query}`,
+    url: `https://forms-api-69j3.onrender.com/templates/popular?limit=${query}`,
   });
 }
 
 export function deleteTemplatesFetch(ids) {
   return axios({
     method: "DELETE",
-    url: "http://localhost:5000/templates",
+    url: "https://forms-api-69j3.onrender.com/templates",
     data: {
       ids: ids,
     },
@@ -142,21 +142,21 @@ export function deleteTemplatesFetch(ids) {
 export function getTopicsFeth() {
   return axios({
     method: "GET",
-    url: "http://localhost:5000/topics",
+    url: "https://forms-api-69j3.onrender.com/topics",
   });
 }
 
 export function getAllTags() {
   return axios({
     method: "GET",
-    url: "http://localhost:5000/tags",
+    url: "https://forms-api-69j3.onrender.com/tags",
   });
 }
 
 export function getAllTagsByQuery(value) {
   return axios({
     method: "GET",
-    url: "http://localhost:5000/tags/search",
+    url: "https://forms-api-69j3.onrender.com/tags/search",
     params: {
       query: value,
     },
@@ -166,7 +166,7 @@ export function getAllTagsByQuery(value) {
 export function createTag(data) {
   return axios({
     method: "POST",
-    url: "http://localhost:5000/tags",
+    url: "https://forms-api-69j3.onrender.com/tags",
     data,
   });
 }
@@ -174,7 +174,7 @@ export function createTag(data) {
 export function createQuestion(data) {
   return axios({
     method: "POST",
-    url: "http://localhost:5000/questions",
+    url: "https://forms-api-69j3.onrender.com/questions",
     data,
   });
 }
@@ -182,14 +182,14 @@ export function createQuestion(data) {
 export function deleteQuestion(id) {
   return axios({
     method: "DELETE",
-    url: `http://localhost:5000/questions/${id}`,
+    url: `https://forms-api-69j3.onrender.com/questions/${id}`,
   });
 }
 
 export function updateQuestionsByOrder(data) {
   return axios({
     method: "PATCH",
-    url: "http://localhost:5000/questions/update",
+    url: "https://forms-api-69j3.onrender.com/questions/update",
     data,
   });
 }
@@ -197,7 +197,7 @@ export function updateQuestionsByOrder(data) {
 export default function updateQuestion(id, data) {
   return axios({
     method: "PATCH",
-    url: `http://localhost:5000/questions/${id}`,
+    url: `https://forms-api-69j3.onrender.com/questions/${id}`,
     data,
   });
 }
@@ -205,14 +205,14 @@ export default function updateQuestion(id, data) {
 export function getQuestion(id) {
   return axios({
     method: "GET",
-    url: `http://localhost:5000/questions/${id}`,
+    url: `https://forms-api-69j3.onrender.com/questions/${id}`,
   });
 }
 
 export function createAnswerOption(data) {
   return axios({
     method: "POST",
-    url: "http://localhost:5000/answer-option",
+    url: "https://forms-api-69j3.onrender.com/answer-option",
     data,
   });
 }
@@ -220,7 +220,7 @@ export function createAnswerOption(data) {
 export function updateAnswerOption(id, data) {
   return axios({
     method: "PATCH",
-    url: `http://localhost:5000/answer-option/${id}`,
+    url: `https://forms-api-69j3.onrender.com/answer-option/${id}`,
     data,
   });
 }
@@ -228,7 +228,7 @@ export function updateAnswerOption(id, data) {
 export function deleteAnswerOtions(data) {
   return axios({
     method: "DELETE",
-    url: `http://localhost:5000/answer-option`,
+    url: `https://forms-api-69j3.onrender.com/answer-option`,
     data,
   });
 }
@@ -236,7 +236,7 @@ export function deleteAnswerOtions(data) {
 export function createForm(data) {
   return axios({
     method: "POST",
-    url: `http://localhost:5000/forms`,
+    url: `https://forms-api-69j3.onrender.com/forms`,
     data,
   });
 }
@@ -244,14 +244,14 @@ export function createForm(data) {
 export function getForm(id) {
   return axios({
     method: "GET",
-    url: `http://localhost:5000/forms/${id}`,
+    url: `https://forms-api-69j3.onrender.com/forms/${id}`,
   });
 }
 
 export function upsertManyAnswers(data) {
   return axios({
     method: "POST",
-    url: `http://localhost:5000/answers/many`,
+    url: `https://forms-api-69j3.onrender.com/answers/many`,
     data,
   });
 }
@@ -259,14 +259,14 @@ export function upsertManyAnswers(data) {
 export function getFormsByUserId(id) {
   return axios({
     method: "GET",
-    url: `http://localhost:5000/forms/user/${id}`,
+    url: `https://forms-api-69j3.onrender.com/forms/user/${id}`,
   });
 }
 
 export function deleteManyForms(ids) {
   return axios({
     method: "DELETE",
-    url: `http://localhost:5000/forms`,
+    url: `https://forms-api-69j3.onrender.com/forms`,
     data: {
       ids: ids,
     },
@@ -276,6 +276,6 @@ export function deleteManyForms(ids) {
 export function getFormsByTemplateId(id) {
   return axios({
     method: "GET",
-    url: `http://localhost:5000/forms/template/${id}`,
+    url: `https://forms-api-69j3.onrender.com/forms/template/${id}`,
   });
 }
